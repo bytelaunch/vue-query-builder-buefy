@@ -1,4 +1,4 @@
-Vue Query Builder
+Vue Query Builder Buefy
 ======
 
 

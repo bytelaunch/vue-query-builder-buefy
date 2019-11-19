@@ -1,28 +1,48 @@
 <template>
   <div class="vqb-group" :class="classObject">
     <div class="vqb-group-heading" :class="{ 'panel-heading': styled }">
-      <div class="match-type-container" :class="{ 'form-inline': styled }">
-        <div :class="{ 'form-group': styled }">
-          <label for="vqb-match-type">{{ labels.matchType }}</label>
-          <select id="vqb-match-type" :class="{ 'form-control': styled }" v-model="query.logicalOperator">
-            <option v-for="(label, index) in labels.matchTypes" :key="index" :value="label.id">{{ label.label }}</option>
-          </select>
-        </div>
-        <button type="button" :class="{ 'close pull-right': styled }" v-if="this.depth > 1" @click="remove" v-html="labels.removeGroup"></button>
+      <div class="match-type-container">
+
+
+        <b-field :label="labels.matchType">
+          <b-select placeholder="Select a name" v-model="query.logicalOperator">
+            <option v-for="(label, index) in labels.matchTypes" :key="index" :value="label.id">
+              {{ label.label }}
+            </option>
+          </b-select>
+        </b-field>
+
+
+        <b-button type="is-danger"
+                  icon-right="delete"
+                  v-if="this.depth > 1"
+                  @click="remove">Delete Group
+        </b-button>
+
       </div>
     </div>
 
-    <div class="vqb-group-body" :class="{ 'panel-body': styled }">
-      <div class="rule-actions" :class="{ 'form-inline': styled }">
-        <div :class="{ 'form-group': styled }">
+    <div class="vqb-group-body">
+      <div class="rule-actions" style="padding-top:30px">
 
-          <select v-model="selectedRule" :class="{ 'form-control': styled }">
-            <option v-for="(rule, index) in rules" :key="index" :value="rule">{{ rule.label }}</option>
-          </select>
 
-          <button type="button" @click="addRule" :class="{ 'btn btn-default': styled }" v-html="labels.addRule"></button>
-          <button type="button" :class="{ 'btn btn-default': styled }" v-if="this.depth < this.maxDepth" @click="addGroup" v-html="labels.addGroup"></button>
-        </div>
+        <b-field grouped>
+          <b-field>
+            <b-select placeholder="Select a name" v-model="selectedRule">
+              <option v-for="(rule, index) in rules" :key="index" :value="rule">{{ rule.label }}</option>
+            </b-select>
+          </b-field>
+
+          <b-field>
+            <div class="buttons">
+
+              <b-button type="is-primary" @click="addRule" v-html="labels.addRule"></b-button>
+              <b-button type="is-primary" outlined v-if="this.depth < this.maxDepth" @click="addGroup"
+                        v-html="labels.addGroup"></b-button>
+            </div>
+          </b-field>
+        </b-field>
+
       </div>
 
       <div class="children">
@@ -48,92 +68,94 @@
 </template>
 
 <script>
-import QueryBuilderRule from './QueryBuilderRule.vue';
-import deepClone from '../utilities.js';
+  import QueryBuilderRule from './QueryBuilderRule.vue'
+  import deepClone from '../utilities.js'
+  import Dialog from 'buefy'
 
-export default {
-  name: "query-builder-group",
+  export default {
+    name: 'query-builder-group',
 
-  components: {
-    QueryBuilderRule
-  },
-
-  props: ['ruleTypes', 'type', 'query', 'rules', 'index', 'maxDepth', 'depth', 'styled', 'labels'],
-
-  methods: {
-    ruleById (ruleId) {
-      var rule = null;
-
-      this.rules.forEach(function(value){
-        if ( value.id === ruleId ) {
-          rule = value;
-          return false;
-        }
-      });
-
-      return rule;
+    components: {
+      Dialog,
+      QueryBuilderRule
     },
 
-    addRule () {
-      let updated_query = deepClone(this.query);
-      let child = {
-        type: 'query-builder-rule',
-        query: {
-          rule: this.selectedRule.id,
-          selectedOperator: this.selectedRule.operators[0],
-          selectedOperand: typeof this.selectedRule.operands === "undefined" ? this.selectedRule.label : this.selectedRule.operands[0],
-          value: null
-        }
-      };
-      // A bit hacky, but `v-model` on `select` requires an array.
-      if (this.ruleById(child.query.rule).type === 'multi-select') {
-        child.query.value = [];
-      }
-      updated_query.children.push(child);
-      this.$emit('update:query', updated_query);
-    },
+    props: ['ruleTypes', 'type', 'query', 'rules', 'index', 'maxDepth', 'depth', 'styled', 'labels'],
 
-    addGroup () {
-      let updated_query = deepClone(this.query);
-      if ( this.depth < this.maxDepth ) {
-        updated_query.children.push({
-          type: 'query-builder-group',
-          query: {
-            logicalOperator: this.labels.matchTypes[0].id,
-            children: []
+    methods: {
+      ruleById (ruleId) {
+        var rule = null
+
+        this.rules.forEach(function (value) {
+          if (value.id === ruleId) {
+            rule = value
+            return false
           }
-        });
-        this.$emit('update:query', updated_query);
+        })
+
+        return rule
+      },
+
+      addRule () {
+        let updated_query = deepClone(this.query)
+        let child = {
+          type: 'query-builder-rule',
+          query: {
+            rule: this.selectedRule.id,
+            selectedOperator: this.selectedRule.operators[0],
+            selectedOperand: typeof this.selectedRule.operands === 'undefined' ? this.selectedRule.label : this.selectedRule.operands[0],
+            value: null
+          }
+        }
+        // A bit hacky, but `v-model` on `select` requires an array.
+        if (this.ruleById(child.query.rule).type === 'multi-select') {
+          child.query.value = []
+        }
+        updated_query.children.push(child)
+        this.$emit('update:query', updated_query)
+      },
+
+      addGroup () {
+        let updated_query = deepClone(this.query)
+        if (this.depth < this.maxDepth) {
+          updated_query.children.push({
+            type: 'query-builder-group',
+            query: {
+              logicalOperator: this.labels.matchTypes[0].id,
+              children: []
+            }
+          })
+          this.$emit('update:query', updated_query)
+        }
+      },
+
+      remove () {
+        this.$emit('child-deletion-requested', this.index)
+      },
+
+      removeChild (index) {
+        let updated_query = deepClone(this.query)
+        updated_query.children.splice(index, 1)
+        this.$emit('update:query', updated_query)
       }
     },
 
-    remove () {
-      this.$emit('child-deletion-requested', this.index);
+    data () {
+      return {
+        selectedRule: this.rules[0]
+      }
     },
 
-    removeChild (index) {
-      let updated_query = deepClone(this.query);
-      updated_query.children.splice(index, 1);
-      this.$emit('update:query', updated_query);
-    }
-  },
+    computed: {
+      classObject () {
+        var classObject = {
+          'panel panel-default': this.styled,
+        }
 
-  data () {
-    return {
-      selectedRule: this.rules[0]
-    }
-  },
+        classObject['depth-' + this.depth.toString()] = this.styled
 
-  computed: {
-    classObject () {
-      var classObject = {
-        'panel panel-default': this.styled,
+        return classObject
       }
-
-      classObject['depth-' + this.depth.toString()] = this.styled;
-
-      return classObject;
     }
   }
-}
 </script>

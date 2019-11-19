@@ -163,6 +163,7 @@ export default {
 <style>
   .vue-query-builder-styled .vqb-group .rule-actions {
     margin-bottom: 20px;
+    margin-left:10px;
   }
 
   .vue-query-builder-styled .vqb-rule {
@@ -179,17 +180,20 @@ export default {
 
   .vue-query-builder-styled .vqb-group.depth-1 .vqb-rule,
   .vue-query-builder-styled .vqb-group.depth-2 {
-    border-left: 2px solid #8bc34a;
+    border-left: 5px solid #23d160;
+    margin-left:10px;
   }
 
   .vue-query-builder-styled .vqb-group.depth-2 .vqb-rule,
   .vue-query-builder-styled .vqb-group.depth-3 {
-    border-left: 2px solid #00bcd4;
+    border-left: 5px solid #209cee;
+    margin-left:10px;
   }
 
   .vue-query-builder-styled .vqb-group.depth-3 .vqb-rule,
   .vue-query-builder-styled .vqb-group.depth-4 {
-    border-left: 2px solid #ff5722;
+    border-left: 5px solid #ffdd57;
+    margin-left:10px;
   }
 
   .vue-query-builder-styled .close {

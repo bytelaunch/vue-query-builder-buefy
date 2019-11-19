@@ -1,4 +1,8 @@
 import Vue from 'vue'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
+Vue.use(Buefy);
 import VueQueryBuilder from './VueQueryBuilder.vue'
 
 Vue.config.productionTip = false
@@ -14,15 +18,24 @@ let rules = [
       id: "last-name",
       label: "Last Name",
     },
-    {
-      type: "radio",
-      id: "plan-type",
-      label: "Plan Type",
-      choices: [
-        {label: "Standard", value: "standard"},
-        {label: "Premium", value: "premium"}
-      ]
-    },
+  {
+    type: "radio",
+    id: "plan-type",
+    label: "Plan Type",
+    choices: [
+      {label: "Standard", value: "standard"},
+      {label: "Premium", value: "premium"}
+    ]
+  },
+  {
+    type: "checkbox",
+    id: "plan-types",
+    label: "Plan Types",
+    choices: [
+      {label: "Standard", value: "standard"},
+      {label: "Premium", value: "premium"}
+    ]
+  },
     {
       type: "text",
       id: "date",

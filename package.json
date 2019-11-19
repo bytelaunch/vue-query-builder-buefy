@@ -1,6 +1,6 @@
 {
-  "name": "vue-query-builder",
-  "version": "0.7.1",
+  "name": "vue-query-builder-buefy",
+  "version": "0.7.1-1",
   "main": "./dist/VueQueryBuilder.common.js",
   "scripts": {
     "serve": "vue-cli-service serve --name VueQueryBuilder src/main.js",
@@ -12,6 +12,7 @@
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "buefy": "^0.8.6",
     "vue": "^2.6.10"
   },
   "devDependencies": {
@@ -22,17 +23,16 @@
     "@vue/cli-service": "^3.4.0",
     "@vue/eslint-config-standard": "^3.0.5",
     "@vue/test-utils": "^1.0.0-beta.29",
+    "@vuepress/core": "1.0.2",
+    "@vuepress/theme-default": "1.0.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^24.8.0",
-    "bootstrap": "^3.4.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.5",
-    "vuepress": "1.0.2",
-    "@vuepress/core": "1.0.2",
-    "@vuepress/theme-default": "1.0.2"
+    "vuepress": "1.0.2"
   },
   "browserslist": [
     "> 1%",
