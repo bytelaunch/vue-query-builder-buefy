@@ -1,6 +1,6 @@
 Vue Query Builder Buefy
 ======
-
+Originally forked from [Vue Query Builder](https://github.com/dabernathy89/vue-query-builder). The bootstrap styles and classes were removed and replaced with [Buefy](https://buefy.org/).
 
 #### A UI component for building complex queries with nested conditionals.
 
@@ -9,4 +9,4 @@ Vue Query Builder is a user interface that makes it easy for your users to creat
 
 [Demo and documentation](https://dabernathy89.github.io/vue-query-builder/)
 
-![Demo Screenshot](https://raw.githubusercontent.com/dabernathy89/vue-query-builder/master/public/demo-screenshot.png "Demo screenshot")
+![Demo Screenshot](https://raw.githubusercontent.com/bytelaunch/vue-query-builder-buefy/master/public/demo-screenshot.png "Demo screenshot")
